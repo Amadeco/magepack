@@ -10,18 +10,21 @@
         "test": "jest"
     },
     "engines": {
-        "node": ">=10"
+        "node": ">=18"
     },
     "dependencies": {
-        "commander": "^5.0.0",
-        "consola": "^2.11.3",
+        "acorn": "^8.15.0",
+        "acorn-walk": "^8.3.4",
+        "commander": "^14.0.0",
+        "consola": "^3.4.2",
         "generate-sourcemap": "^0.0.2",
-        "glob": "^7.1.6",
-        "gzip-size": "^5.1.1",
-        "javascript-stringify": "^2.0.1",
-        "jsesc": "^3.0.1",
+        "glob": "^13.0.0",
+        "gzip-size": "^7.0.0",
+        "javascript-stringify": "^2.1.0",
+        "jsesc": "^3.1.0",
         "lodash.merge": "^4.6.2",
-        "terser": "^5.15.0"
+        "magic-string": "^0.30.21",
+        "terser": "^5.38.0"
     },
     "lint-staged": {
         "*.json": [
@@ -51,7 +54,7 @@
             "plugin:prettier/recommended"
         ],
         "parserOptions": {
-            "ecmaVersion": 8
+            "ecmaVersion": 2022
         }
     },
     "husky": {
@@ -60,15 +63,15 @@
         }
     },
     "devDependencies": {
-        "eslint": "^6.8.0",
-        "eslint-config-prettier": "^6.10.1",
-        "eslint-plugin-prettier": "^3.1.2",
-        "husky": "^4.2.3",
-        "jest": "^26.1.0",
-        "lint-staged": "^10.1.0",
-        "prettier": "^2.0.2"
+        "eslint": "^9.19.0",
+        "eslint-config-prettier": "^10.0.0",
+        "eslint-plugin-prettier": "^5.2.0",
+        "husky": "^9.1.7",
+        "jest": "^30.0.0",
+        "lint-staged": "^16.2.7",
+        "prettier": "^3.4.2"
     },
     "optionalDependencies": {
-        "puppeteer": "^2.1.1"
+        "puppeteer": "^24.36.0"
     }
 }
