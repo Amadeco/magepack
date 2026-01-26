@@ -1,1 +1,1 @@
-module.exports = require('./lib/generate/collector');
+export * from './lib/generate/collector/index.js';
