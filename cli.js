@@ -69,8 +69,8 @@ program
         'Minification strategy: "aggressive" (best performance) or "safe" (best compatibility).', 
         'safe'
     )
-    .action(async ({ config, sourcemap, minify, debug, glob }) => {
-        if (debug) {
+    .action(async (options) => {
+        if (options.debug) {
             logger.level = 5;
         }
 
@@ -79,7 +79,14 @@ program
             const bundleModule = await import('./lib/bundle.js');
             // Support both default export and module.exports compatibility
             const bundle = bundleModule.default || bundleModule;
-            await bundle(config, glob, sourcemap, minify, minifyStrategy);
+            
+            await bundle(
+                options.config, 
+                options.glob, 
+                options.sourcemap, 
+                options.minify, 
+                options.minifyStrategy
+            );
         } catch (error) {
             errorHandler(error);
         }
