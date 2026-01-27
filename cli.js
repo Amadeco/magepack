@@ -79,7 +79,7 @@ program
             const bundleModule = await import('./lib/bundle.js');
             // Support both default export and module.exports compatibility
             const bundle = bundleModule.default || bundleModule;
-            aawait bundle(config, glob, sourcemap, minify, minifyStrategy);
+            await bundle(config, glob, sourcemap, minify, minifyStrategy);
         } catch (error) {
             errorHandler(error);
         }
