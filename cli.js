@@ -31,6 +31,7 @@ program
     .option('-u, --auth-username <user>', 'Basic authentication username.')
     .option('-p, --auth-password <password>', 'Basic authentication password.')
     .option('-d, --debug', 'Enable logging of debugging information.')
+    .option('-t, --timeout <seconds>', 'Timeout for browser operations in seconds.', '30')
     .option('--skip-checkout', 'Do not generate a bundle for checkout.')
     .action(async (config) => {
         if (config.debug) {
