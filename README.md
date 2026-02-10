@@ -45,9 +45,9 @@ Run this command against a running instance of your store (staging or local). Pu
 
 ```bash
 magepack generate \
-  --cms-url "[https://mysite.test/](https://mysite.test/)" \
-  --category-url "[https://mysite.test/gear/bags.html](https://mysite.test/gear/bags.html)" \
-  --product-url "[https://mysite.test/joust-duffle-bag.html](https://mysite.test/joust-duffle-bag.html)" \
+  --cms-url "https://mysite.test/" \
+  --category-url "https://mysite.test/gear/bags.html" \
+  --product-url "https://mysite.test/joust-duffle-bag.html" \
   --timeout 30
 
 ```
