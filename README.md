@@ -2,6 +2,8 @@
 
 **Modern Frontend Bundling for Magento 2 (Adobe Commerce)**
 
+**CURRENTLY IN BETA-TEST**
+
 [![Latest Stable Version](https://img.shields.io/github/v/release/Amadeco/magepack)](https://github.com/Amadeco/magepack/releases)
 [![Magento 2](https://img.shields.io/badge/Magento-2.4.8%2B-brightgreen.svg)](https://business.adobe.com/products/magento/magento-commerce.html)
 [![License](https://img.shields.io/github/license/Amadeco/magepack)](LICENSE)
