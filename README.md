@@ -136,4 +136,3 @@ Open Software License v. 3.0 (OSL-3.0).
 **Credits:**
 Original concept and implementation by [magesuite](https://github.com/magesuite).
 Forked and maintained by Amadeco.
-```
