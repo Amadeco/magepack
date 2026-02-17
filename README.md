@@ -2,8 +2,6 @@
 
 **Modern Frontend Bundling for Magento 2 (Adobe Commerce)**
 
-**CURRENTLY IN BETA-TEST**
-
 [![Latest Stable Version](https://img.shields.io/github/v/release/Amadeco/magepack)](https://github.com/Amadeco/magepack/releases)
 [![Magento 2](https://img.shields.io/badge/Magento-2.4.8%2B-brightgreen.svg)](https://business.adobe.com/products/magento/magento-commerce.html)
 [![License](https://img.shields.io/github/license/Amadeco/magepack)](LICENSE)
@@ -22,6 +20,7 @@ Magepack is a high-performance bundling tool designed to replace Magento's defau
 * **Magento 2.4.8+ Ready:** Automatically calculates and updates **SRI Hashes** (`sri-hashes.json`) for CSP compliance.
 * **Atomic Deployment:** Builds to a temporary directory and performs an atomic swap to prevent 404s during deployment.
 * **Legacy Support:** Automatically wraps non-AMD and anonymous AMD modules (like older jQuery plugins) to work within bundles.
+* **SRI Support:** Rewrites dynamically the sri-hashes.json for files after bundle command.
 
 ---
 
@@ -66,7 +65,6 @@ magepack generate \
 * `--category-url` (Required): URL of a Category page (PLP).
 * `--product-url` (Required): URL of a Product page (PDP).
 * `--auth-username` / `--auth-password`: For sites behind Basic Auth.
-* `--skip-checkout`: Skips the checkout flow generation if not needed.
 
 > **⚠️ Important:** Ensure your site is **clean** before generating. If Magepack detects existing `magepack/bundle-*` files, it will stop to prevent pollution. Run `bin/magento setup:static-content:deploy -f` to reset before generating.
 
