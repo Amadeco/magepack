@@ -8,7 +8,7 @@
 
 [SPONSOR: Amadeco](https://www.amadeco.fr)
 
-> ⚠️ **Fork Notice:** This is a fork of the original [magesuite/magepack](https://github.com/magesuite/magepack). It has been completely **rewritten in ESM (ECMAScript Modules)** to support **Node.js 18+** and modern development standards.
+> ⚠️ **Fork Notice:** This is a fork of the original [magesuite/magepack](https://github.com/magesuite/magepack). It has been completely **rewritten in ESM (ECMAScript Modules)** to support **Node.js 18+** and modern development standards, with enterprise-grade performance optimizations.
 
 Magepack is a high-performance bundling tool designed to replace Magento's default `r.js` optimizer. It solves "dependency hell" and blocking RequireJS chains by using Puppeteer to capture the exact execution order of modules and bundling them into optimized chunks.
 
@@ -17,17 +17,18 @@ Magepack is a high-performance bundling tool designed to replace Magento's defau
 * **ESM Architecture:** Rewritten using native ES Modules (`import`/`export`) for compatibility with Node.js 18+.
 * **Mobile-First Generation:** Captures execution order using a mobile viewport (`412x732`) to ensure critical mobile-specific JS is included.
 * **Smart Splitting:** Automatically separates code into `vendor` (infrastructure), `common` (shared logic), and page-specific bundles (CMS, Category, Product, Checkout).
-* **Magento 2.4.8+ Ready:** Automatically calculates and updates **SRI Hashes** (`sri-hashes.json`) for CSP compliance.
+* **Magento 2.4.8+ Ready (SRI):** Automatically calculates and updates **SRI Hashes** (`sri-hashes.json`) for CSP compliance.
 * **Atomic Deployment:** Builds to a temporary directory and performs an atomic swap to prevent 404s during deployment.
+* **Enterprise Concurrency Management:** Batches file I/O operations to prevent CPU thrashing and `EMFILE` errors on large multi-locale environments.
+* **HTML Template Minification:** Automatically minifies KnockoutJS `.html` templates (while safely preserving `` bindings) to drastically reduce the `common` bundle size.
 * **Legacy Support:** Automatically wraps non-AMD and anonymous AMD modules (like older jQuery plugins) to work within bundles.
-* **SRI Support:** Rewrites dynamically the sri-hashes.json for files after bundle command.
 
 ---
 
 ## 📋 Requirements
 
 * **Node.js:** >= 18.0.0
-* **Magento:** 2.3.x / 2.4.x (Tested on 2.4.8)
+* **Magento:** 2.3.x / 2.4.x (Tested on 2.4.8+)
 
 ## 📦 Installation
 
@@ -52,9 +53,9 @@ Run this command against a running instance of your store (staging or local). Pu
 
 ```bash
 magepack generate \
-  --cms-url "https://mysite.test/" \
-  --category-url "https://mysite.test/gear/bags.html" \
-  --product-url "https://mysite.test/joust-duffle-bag.html" \
+  --cms-url "[https://mysite.test/](https://mysite.test/)" \
+  --category-url "[https://mysite.test/gear/bags.html](https://mysite.test/gear/bags.html)" \
+  --product-url "[https://mysite.test/joust-duffle-bag.html](https://mysite.test/joust-duffle-bag.html)" \
   --timeout 30
 
 ```
@@ -73,8 +74,7 @@ magepack generate \
 Once `magepack.config.js` is generated, run the bundling command in your Magento root. This allows you to bundle without a running database (ideal for CI/CD).
 
 ```bash
-magepack bundle --minify --sourcemap
-
+magepack bundle --minify --fast-compression --strict
 ```
 
 **Options:**
@@ -82,7 +82,9 @@ magepack bundle --minify --sourcemap
 * `--minify`: Minifies the output using Terser (defaults to 'safe' mode).
 * `--minify-strategy`: Choose `safe` (compatibility) or `aggressive` (performance).
 * `--sourcemap`: Generates `.map` files for debugging.
-* `--theme`: Limit bundling to a specific theme (e.g., `Magento/luma`).
+* `--theme`: Limit bundling to a specific theme (e.g., `Vendor/theme`).
+* `--fast-compression`: Uses lower Brotli compression levels (Level 4 instead of 11) to significantly speed up builds. **Highly recommended for CI/CD staging environments.**
+* `--strict`: Enforces strict dependency auditing. Fails the build immediately if a module declared in your configuration is missing on the filesystem.
 
 ---
 
