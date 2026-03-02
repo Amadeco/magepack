@@ -2,31 +2,43 @@
     "name": "magepack",
     "version": "3.0.0",
     "bin": "./cli.js",
-    "repository": "https://github.com/magesuite/magepack.git",
-    "author": "creativestyle",
-    "license": "OSL-2.0",
+    "repository": "https://github.com/Amadeco/magepack.git",
+    "author": "Amadeco",
+    "license": "OSL-3.0",
     "type": "module",
     "main": "index.js",
-    "scripts": {
-        "test": "jest"
-    },
     "engines": {
         "node": ">=18"
     },
+    "scripts": {
+        "test": "jest",
+        "lint": "eslint .",
+        "format": "prettier --write \"**/*.{js,json}\"",
+        "prepare": "husky"
+    },
     "dependencies": {
-        "acorn": "^8.15.0",
-        "acorn-walk": "^8.3.4",
-        "commander": "^14.0.0",
+        "acorn": "^8.16.0",
+        "acorn-walk": "^8.3.5",
+        "commander": "^14.0.3",
         "consola": "^3.4.2",
         "generate-sourcemap": "^0.0.2",
-        "glob": "^13.0.0",
+        "glob": "^13.0.6",
         "gzip-size": "^7.0.0",
         "javascript-stringify": "^2.1.0",
         "jsesc": "^3.1.0",
         "lodash.merge": "^4.6.2",
         "magic-string": "^0.30.21",
-        "puppeteer": "^24.36.0",
-        "terser": "^5.38.0"
+        "puppeteer": "^24.37.5",
+        "terser": "^5.46.0"
+    },
+    "devDependencies": {
+        "eslint": "^9.19.0",
+        "eslint-config-prettier": "^10.0.0",
+        "eslint-plugin-prettier": "^5.2.0",
+        "husky": "^9.1.7",
+        "jest": "^30.0.0",
+        "lint-staged": "^16.2.7",
+        "prettier": "^3.4.2"
     },
     "lint-staged": {
         "*.json": [
@@ -42,35 +54,5 @@
         "trailingComma": "es5",
         "bracketSpacing": true,
         "tabWidth": 4
-    },
-    "eslintConfig": {
-        "env": {
-            "node": true,
-            "es6": true,
-            "browser": true,
-            "jest": true
-        },
-        "extends": [
-            "eslint:recommended",
-            "prettier",
-            "plugin:prettier/recommended"
-        ],
-        "parserOptions": {
-            "ecmaVersion": 2022
-        }
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
-    "devDependencies": {
-        "eslint": "^9.19.0",
-        "eslint-config-prettier": "^10.0.0",
-        "eslint-plugin-prettier": "^5.2.0",
-        "husky": "^9.1.7",
-        "jest": "^30.0.0",
-        "lint-staged": "^16.2.7",
-        "prettier": "^3.4.2"
     }
 }
