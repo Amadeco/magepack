@@ -102,4 +102,17 @@ program
         }
     });
 
+program
+    .command('disable')
+    .description('Disable Magepack by removing generated bundles and cleaning RequireJS configurations.')
+    .action(async () => {
+        try {
+            const disableModule = await import('./lib/disable.js');
+            const disable = disableModule.default || disableModule;
+            await disable();
+        } catch (error) {
+            errorHandler(error);
+        }
+    });
+
 program.parse(process.argv);
