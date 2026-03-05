@@ -33,7 +33,6 @@ program
     .option('-d, --debug', 'Enable logging of debugging information.')
     .option('-t, --timeout <seconds>', 'Timeout for browser operations in seconds.', '30')
     .option('--skip-checkout', 'Do not generate a bundle for checkout.')
-    .option('--fast-compression', 'Use lower Brotli compression levels to speed up builds (Recommended for staging/dev).')
     .option('--strict', 'Fail the build immediately if a mapped module is missing on the filesystem.')
     .action(async (config) => {
         if (config.debug) {
@@ -71,6 +70,10 @@ program
         '--minify-strategy <strategy>', 
         'Minification strategy: "aggressive" (best performance) or "safe" (best compatibility).', 
         'safe'
+    )
+    .option(
+        '-f', '--fast-compression', 
+        'Use lower Brotli compression levels to speed up builds (Recommended for staging/dev).'
     )
     .action(async (options) => {
         if (options.debug) {
