@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 This fork has been specifically re-architected to meet the strict requirements of Adobe Commerce (Magento 2.4.8+), with an absolute focus on performance (KISS principle), CI/CD resilience, and advanced static compression.
 
+## [1.4.8] - 2026-04-15
+
+### ✨ Added
+- **`--only <bundles>` CLI option (`cli.js`, `lib/generate.js`):** Restricts the `generate` command to a comma-separated subset of collectors (e.g. `--only cms` or `--only cms,category`). Previously, all four collectors (cms, category, product, checkout) were always executed. With `--only`, URL flags are only required for the collectors that will actually run — e.g. `--only cms` requires `--cms-url` but not `--category-url` or `--product-url`. Supersedes the removed `--skip-checkout` flag: use `--only cms,category,product` to achieve the same result with finer granularity.
+- **`--merge` CLI option (`cli.js`, `lib/generate.js`):** Merges newly generated bundles into the existing `magepack.config.js` instead of replacing it. Reads the existing `bundles` array from config, deduplicates new bundle modules against all modules already declared in existing bundles (prevents the same module appearing in two bundles), then replaces any existing bundle with the same name or appends new ones. Skips `extractCommonBundle` in merge mode — vendor/common bundles in the existing config remain untouched. Designed for adding a single new bundle (e.g. `cms`) to a hand-crafted config without wiping manually curated entries.
+- **`MIN_BUNDLE_MODULES` lowered from `5` → `1` (`lib/generate/extractCommonBundle.js`):** The previous threshold of 5 silently dropped page-specific bundles with fewer than 5 unique modules after vendor/common extraction. This caused `bundle-cms` to be omitted when all CMS page modules were already covered by `vendor`/`common`, even though the layout XML expected the file to exist. Setting the threshold to `1` ensures any bundle with at least one unique module is emitted. `vendor` and `common` are always emitted regardless of this threshold.
+
+### 🔴 Removed
+- **`--skip-checkout` CLI option (`cli.js`, `lib/generate.js`):** Removed in favour of `--only`. To skip checkout bundle generation, use `--only cms,category,product` instead of `--skip-checkout`.
+
 ## [1.4.7] - 2026-04-14
 
 ### ✨ Added

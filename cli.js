@@ -25,14 +25,15 @@ program
     .description(
         'Generate optimization configuration based on given page URLs.'
     )
-    .requiredOption('--cms-url <url>', 'CMS page URL.')
-    .requiredOption('--category-url <url>', 'Category page URL.')
-    .requiredOption('--product-url <url>', 'Product page URL.')
+    .option('--cms-url <url>', 'CMS page URL.')
+    .option('--category-url <url>', 'Category page URL.')
+    .option('--product-url <url>', 'Product page URL.')
     .option('-u, --auth-username <user>', 'Basic authentication username.')
     .option('-p, --auth-password <password>', 'Basic authentication password.')
     .option('-d, --debug', 'Enable logging of debugging information.')
     .option('-t, --timeout <seconds>', 'Timeout for browser operations in seconds.', '30')
-    .option('--skip-checkout', 'Do not generate a bundle for checkout.')
+    .option('--only <bundles>', 'Comma-separated bundle names to generate (e.g. "cms" or "cms,category"). Runs all collectors if omitted.')
+    .option('--merge', 'Merge generated bundles into existing magepack.config.js instead of replacing. Deduplicates modules already in existing vendor/common.')
     .option('--desktop', 'Use a desktop viewport (1920x1080) to capture desktop-specific scripts.')
     .option('--mobile', 'Use a mobile viewport (412x732) to capture mobile-specific scripts (default).')
     .action(async (config) => {
@@ -47,6 +48,28 @@ program
         }
         if (!config.authPassword && process.env.MAGEPACK_AUTH_PASS) {
             config.authPassword = process.env.MAGEPACK_AUTH_PASS;
+        }
+
+        // Validate URLs for collectors that will actually run.
+        // --only restricts which collectors run; without it, all three are required.
+        const onlySet = config.only
+            ? new Set(config.only.split(',').map(s => s.trim().toLowerCase()))
+            : null;
+
+        const urlRequirements = [
+            { bundle: 'cms',      flag: '--cms-url',      key: 'cmsUrl' },
+            { bundle: 'category', flag: '--category-url', key: 'categoryUrl' },
+            { bundle: 'product',  flag: '--product-url',  key: 'productUrl' },
+        ];
+
+        const missing = urlRequirements.filter(({ bundle, key }) => {
+            const willRun = !onlySet || onlySet.has(bundle);
+            return willRun && !config[key];
+        });
+
+        if (missing.length > 0) {
+            missing.forEach(({ flag }) => logger.error(`Missing required option: ${flag}`));
+            process.exit(1);
         }
 
         // Dynamic Import: Loads lib/generate.js only when this command is run

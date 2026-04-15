@@ -53,21 +53,37 @@ Run this command against a running instance of your store (staging or local). Pu
 
 ```bash
 magepack generate \
-  --cms-url "[https://mysite.test/](https://mysite.test/)" \
-  --category-url "[https://mysite.test/gear/bags.html](https://mysite.test/gear/bags.html)" \
-  --product-url "[https://mysite.test/joust-duffle-bag.html](https://mysite.test/joust-duffle-bag.html)" \
+  --cms-url "https://mysite.test/" \
+  --category-url "https://mysite.test/gear/bags.html" \
+  --product-url "https://mysite.test/joust-duffle-bag.html" \
   --timeout 30
-
 ```
 
 **Options:**
 
-* `--cms-url` (Required): URL of the CMS/Home page.
-* `--category-url` (Required): URL of a Category page (PLP).
-* `--product-url` (Required): URL of a Product page (PDP).
+* `--cms-url`: URL of the CMS/Home page. Required unless `--only` excludes the `cms` collector.
+* `--category-url`: URL of a Category page (PLP). Required unless `--only` excludes the `category` collector.
+* `--product-url`: URL of a Product page (PDP). Required unless `--only` excludes the `product` collector.
+* `--only <bundles>`: Comma-separated list of bundle names to generate (e.g. `cms` or `cms,category`). Runs all collectors if omitted. Only the URL flags for selected bundles are required.
+* `--merge`: Merge generated bundles into the existing `magepack.config.js` instead of replacing it. Deduplicates modules already declared in existing `vendor`/`common` bundles. Use when adding a new bundle (e.g. `cms`) to a hand-crafted config without wiping existing entries.
 * `--auth-username` / `--auth-password`: For sites behind Basic Auth.
+* `--desktop`: Use a desktop viewport (`1920x1080`) instead of the default mobile viewport.
+* `--timeout <seconds>`: Timeout for Puppeteer browser operations (default: `30`).
 
 > **⚠️ Important:** Ensure your site is **clean** before generating. If Magepack detects existing `magepack/bundle-*` files, it will stop to prevent pollution. Run `bin/magento setup:static-content:deploy -f` to reset before generating.
+
+#### Adding a single bundle to an existing config
+
+To add only the `cms` bundle without regenerating everything:
+
+```bash
+magepack generate \
+  --cms-url "https://mysite.test/" \
+  --only cms \
+  --merge
+```
+
+This visits only the CMS page, deduplicates against existing `vendor`/`common`, and merges the result into your current `magepack.config.js`.
 
 ### Step 2: Bundle Assets
 
